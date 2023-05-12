@@ -1,4 +1,4 @@
-import { _each } from "./each.js"
+import { _each } from './each.js'
 
 function _map(list, mapper) {
   var new_list = []
