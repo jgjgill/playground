@@ -8,5 +8,5 @@ function _map(list, mapper) {
   return new_list
 }
 
-console.log(_map([1, 2, 3, 4], (num) => num * 2))
-// [ 2, 4, 6, 8 ]
+console.log(_map([1, 2, 3, 4], (num) => num * 2)) // [ 2, 4, 6, 8 ]
+console.log(_map(null, (num) => num * 2)) // []
