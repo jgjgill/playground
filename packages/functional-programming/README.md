@@ -155,3 +155,27 @@ const pipe = function(...fns) {
 ```
 
 ### 함수 vs 프로시저
+
+## 컬렉션 중심 프로그래밍
+
+### 수집하기
+
+대표 함수는 `map`이 있다.
+`map`을 활용하여 `values`와 `pluck` 같은 함수를 만든다.
+
+### 거르기
+
+대표 함수는 `filter`가 있다.
+`filter`를 활용하여 `reject`와 `compact` 같은 함수를 만든다.
+
+### 찾아내기
+
+대표 함수는 `find`가 있다.
+`find`를 활용하여 `find_index`, `some`, `every` 같은 함수를 만든다.
+
+### 접기
+
+대표 함수는 `reduce`가 있다.
+`reduce`를 활용하여 `min_by`, `max_by`, `group_by`, `count_by` 같은 함수를 만든다.
+
+## 액션 - 계산 - 데이터

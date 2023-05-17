@@ -8,12 +8,6 @@ function _curryr(fn) {
   }
 }
 
-var _get = _curryr(function _get(obj, key) {
-  return obj == null ? undefined : obj[key]
-})
-
-var _length = _get('length')
-
 function is_object(obj) {
   return typeof obj == 'object' && !!obj
 }
@@ -25,7 +19,7 @@ function _keys(obj) {
 export function _each(list, iter) {
   var keys = _keys(list)
   for (let i = 0, len = keys.length; i < len; i++) {
-    iter(list[keys[i]])
+    iter(list[keys[i]], keys[i])
   }
 
   return list
