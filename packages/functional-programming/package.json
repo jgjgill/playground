@@ -1,5 +1,8 @@
 {
   "name": "functional-programming",
   "packageManager": "yarn@3.5.1",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "underscore": "^1.13.6"
+  }
 }

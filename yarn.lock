@@ -441,6 +441,8 @@ __metadata:
 "functional-programming@workspace:packages/functional-programming":
   version: 0.0.0-use.local
   resolution: "functional-programming@workspace:packages/functional-programming"
+  dependencies:
+    underscore: ^1.13.6
   languageName: unknown
   linkType: soft
 
@@ -868,6 +870,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: d26b6ba97b6d163c55dbdffd9bbb4c211667ebebc743accfeb2c8c0154aace7afd097b51165a72a5bad2cf65a4612259344ff60f8e642362aa1695c760d303ac
+  languageName: node
+  linkType: hard
+
+"underscore@npm:^1.13.6":
+  version: 1.13.6
+  resolution: "underscore@npm:1.13.6"
+  checksum: d5cedd14a9d0d91dd38c1ce6169e4455bb931f0aaf354108e47bd46d3f2da7464d49b2171a5cf786d61963204a42d01ea1332a903b7342ad428deaafaf70ec36
   languageName: node
   linkType: hard
 

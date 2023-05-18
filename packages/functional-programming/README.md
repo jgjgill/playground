@@ -179,3 +179,29 @@ const pipe = function(...fns) {
 `reduce`를 활용하여 `min_by`, `max_by`, `group_by`, `count_by` 같은 함수를 만든다.
 
 ## 액션 - 계산 - 데이터
+
+## 지연 평가
+
+## 커링
+
+- 함수를 구체화시켜준다.
+- 함수 합성을 쉽게 해준다.
+
+### curry
+
+```js
+function curry(fn, arity = fn.length) {
+  return (function nextCurried(prevArgs) {
+    return function curried(nextArgs) {
+      var args = [...prevArgs, nextArgs]
+      if (args.length >= arity) {
+        return fn(...args)
+      } else {
+        return nextCurried(args)
+      }
+    }
+  })([])
+}
+```
+
+## 데이터 흐름 프로그래밍
