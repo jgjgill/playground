@@ -18,12 +18,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "functional-programming",\
         "reference": "workspace:packages/functional-programming"\
+      },\
+      {\
+        "name": "javascript",\
+        "reference": "workspace:packages/javascript"\
       }\
     ],\
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
       ["functional-programming", ["workspace:packages/functional-programming"]],\
+      ["javascript", ["workspace:packages/javascript"]],\
       ["playground", ["workspace:."]]\
     ],\
     "fallbackPool": [\
@@ -716,6 +721,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["isexe", "npm:2.0.0"]\
           ],\
           "linkType": "HARD"\
+        }]\
+      ]],\
+      ["javascript", [\
+        ["workspace:packages/javascript", {\
+          "packageLocation": "./packages/javascript/",\
+          "packageDependencies": [\
+            ["javascript", "workspace:packages/javascript"]\
+          ],\
+          "linkType": "SOFT"\
         }]\
       ]],\
       ["js-sdsl", [\

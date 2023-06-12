@@ -563,6 +563,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"javascript@workspace:packages/javascript":
+  version: 0.0.0-use.local
+  resolution: "javascript@workspace:packages/javascript"
+  languageName: unknown
+  linkType: soft
+
 "js-sdsl@npm:^4.1.4":
   version: 4.4.0
   resolution: "js-sdsl@npm:4.4.0"

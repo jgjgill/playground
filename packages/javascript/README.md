@@ -206,3 +206,135 @@ Number, String, Boolean, Object, Array, Function, Undefined, Null
   - Big-Endian: 큰 쪽에서 작은 쪽으로 저장
   - Little-Endian: 작은 쪽에서 큰 쪽으로 저장
 - BOM (Byte Order Mark): 문서 제일 앞에 U+FEFF를 삽입하여 애플리케이션이 바이트 순서를 알 수 있게 해줌
+
+## DOM
+
+DOM 트리 순회는 전위순회(PreOrder)로 이루어진다.
+
+### 문서 노드
+
+- 최상위 노드, DOM 트리의 시작점
+
+### 요소 노드
+
+- HTML 태그 그자체, 문서 구조 표현,
+
+### 속성 노드
+
+- 요소 노드에 붙어있는 노드, 자식 노드가 아닌 태그에 정의된 속성들이 속성 노드에 속함
+
+### 텍스트 노드
+
+- 요소의 텍스트 표현, 자식 노드를 가질 수 없어 DOM트리의 단말 노드
+
+### DOM 트리 렌더링
+
+**Attachment**
+
+- 브라우저는 HTMLD을 읽고 파싱한 후 DOM 트리 구성
+- StyleSheets 파싱하여 스타일 규칙을 만들어 CSSOM 트리 구성, DOM 요소에 스타일 추가
+
+**Render Tree**
+
+- DOM 트리와 CSSOM 트리 결합하여 Reder Tree 구성
+- Layout(Reflow) 과정을 통해 DOM 노드 위치 지정
+
+**Paint**
+
+**Display**
+
+### DOM 선택
+
+**getElementById**
+
+DOM 트리에서 요소 노드를 id로 찾는다. 제일 먼저 찾은 요소 하나 반환.
+
+**getElementsByClassName**
+
+DOM 트리에서 요소 노드를 class로 찾는다. 일치하는 모든 요소 반환.
+
+**getElementsByTagName**
+
+DOM 트리에서 요소 노드를 태그 이름으로 찾는다. 일치하는 모든 요소 반환.
+
+**querySelector**
+
+DOM 트리에서 요소 노드를 CSS Selector 문법으로 찾는다. 제일 먼저 찾은 요소 하나 반환.
+
+**querySelectorAll**
+
+DOM 트리에서 요소 노드를 CSS Selector 문법으로 찾는다. 일치하는 모든 요소 반환. 사용하기에 가장 편한 방식.
+
+**window.[id]**
+
+id가 있는 요소는 window 객체를 통해 찾을 수 있다. 여러 개라면 리스트로 반환.
+
+### DOM 탐색
+
+**parentNode**
+
+선택한 요소 노드의 부모 노드를 불러온다. document의 부모 노드는 null.
+
+**firstElementNode**
+
+선택한 요소 노드의 자식 요소 노드 중 첫 번째를 불러온다. 없을 경우 null 반환.
+
+**children**
+
+선택한 요소 노드의 자식 요소 노드를 불러온다. 없을 경우 빈 배열 반환.
+
+**nextElementSibling**
+
+선택한 요소 노드의 다음 형제 요소 노드를 불러온다. 없을 경우 null 반환.
+
+**previousElementSibling**
+
+선택한 요소 노드의 이전 형제 요소 노드를 불러온다. 없을 경우 null 반환.
+
+### DOM 조작
+
+**class 접근**
+
+선택한 요소 노드에서 className과 classList로 요소의 class 속성을 불러오고 변경.
+
+**hasAttribute**
+
+선택한 요소 노드에서 속성을 가지고 있는지 확인.
+
+**getAttribute**
+
+선택한 요소 노드에서 속성의 값 반환. 없다면 null 반환.
+
+**setAttribute**
+
+선택한 요소 노드에서 속성 정의.
+
+**removeAttribute**
+
+선택한 요소 노드에서 속성 제거.
+
+**textContent**
+
+선택한 요소 노드에서 텍스트 노드 접근, 변경
+
+**innerHTML**
+
+선택한 요소 노드에서 내부 HTML 수정. XSS 위험.
+
+**createElement**
+
+요소 노드 생성
+
+**appendChild**
+
+선택한 요소 노드 마지막 자식 요소로 추가
+
+**removeChild**
+
+선택한 요소 노드 자식 노드 중 해당하는 요소 제거
+
+## Virtual DOM
+
+- 브라우저 렌더링 과정은 많은 시간을 소요
+- Virtual DOM은 실제 DOM 트리를 자바스크립트 객체로 구성
+- 직접 DOM을 수정하지 않고 Virtual DOM에서 바뀐 부분만 수정한 후 렌더링
