@@ -365,3 +365,7 @@ const double = (arr) => {
   return arr.map((n) => n * 2)
 }
 ```
+
+## 쿠키
+
+## Local Storage
