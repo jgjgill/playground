@@ -1,3 +1,6 @@
 {
-  "name": "javascript"
+  "name": "javascript",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
 }

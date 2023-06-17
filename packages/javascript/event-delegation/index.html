@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이벤트 위임</title>
+    <script src="./src/index.js" type="module">
+      console.log(this)
+    </script>
+  </head>
+  <body>
+    <div id="menu">
+      <h1>메뉴 영역</h1>
+      <button data-action="save">저장하기</button>
+      <button data-action="load">불러오기</button>
+      <button data-action="search">검색하기</button>
+    </div>
+
+    <div id="counter">
+      <h1>카운터 영역</h1>
+      첫 번째 카운터:
+      <input type="button" value="1" data-counter />
+      두 번째 카운터:
+      <input type="button" value="2" data-counter />
+    </div>
+
+    <div id="toggle">
+      <h1>토글 영역</h1>
+      <button data-toggle-id="subscribe-mail">구독 폼 보여주기</button>
+      <form id="subscribe-mail" hidden>메일 주소: <input type="email" /></form>
+    </div>
+  </body>
+</html>
