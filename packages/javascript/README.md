@@ -369,3 +369,91 @@ const double = (arr) => {
 ## 쿠키
 
 ## Local Storage
+
+## Module
+
+### export, import
+
+- 스크립트 의존성을 간편하게 관리
+
+## 비동기
+
+### callback
+
+- 특정 코드의 연산이 끝날떄까지 코드의 실행을 멈추지 않고 다음 코드를 먼저 실행
+
+```js
+function request(url, successCallback, failCallback) {
+  const xhr = new XMLHttpRequest()
+  xhr.addEventListener('load', (e) => {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        successCallback(JSON.parse(xhr.responseText))
+      } else {
+        failCallback(xhr.statusText)
+      }
+    }
+  })
+  xhr.addEventListener('error', (e) => failCallback(xhr.statusText))
+
+  xhr.open('GET', url)
+  xhr.send()
+}
+```
+
+### Promise
+
+- `resolve`, `reject`
+- `then`, `catch`, `finally`
+
+```js
+const promise = new Promise((resolve, reject) => {
+  // promise 내부에서 비동기 상황이 종료될 때, resolve 함수 호출
+  // promise 내부에서 오류 상황일 때, reject 함수 호출
+})
+```
+
+```js
+function request(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.addEventListener('load', () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.responseText))
+        } else {
+          reject(xhr.statusText)
+        }
+      }
+    })
+    xhr.addEventListener('error', () => reject(xhr.statusText))
+
+    xhr.open('GET', url)
+    xhr.send()
+  })
+}
+```
+
+**`Promise.all`**
+
+- **`Promise.race`**
+
+- 여러 `Promise` 중 하나라도 `resolve` 혹은 `reject` 되면 종료
+
+**`Promise.any`**
+
+- 여러 `Promise` 중 하나라도 `resolve`되면 종료
+
+**`Promise.allSettled`**
+
+- 여러 `Promise`들이 성공했거나 실패했거나 상관없이 모두 이행된 경우를 처리
+
+### async, await
+
+### fetch api
+
+- `xmlHTTPRequest`을 대체
+- `Promise` 기반으로 동작
+- fetch는 HTTP 에러가 발생해도 `reject`되지 않음
+- 네트워크나 요청이 완료되지 못한 경우에만 `reject`
+- 서버 요청 중 에러가 생겼을 경우에도 `then`으로 떨어지므로, `response`의 상태 코드(status code)가 `ok`인지 체크해주는 것이 좋음
