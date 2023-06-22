@@ -457,3 +457,23 @@ function request(url) {
 - fetch는 HTTP 에러가 발생해도 `reject`되지 않음
 - 네트워크나 요청이 완료되지 못한 경우에만 `reject`
 - 서버 요청 중 에러가 생겼을 경우에도 `then`으로 떨어지므로, `response`의 상태 코드(status code)가 `ok`인지 체크해주는 것이 좋음
+
+### history api
+
+- 화면 이동 없이 현재 url을 업데이트
+  - `pushState`: 세션 히스토리에 새 url을 쌓음
+  - `replaceState`: 세션 히스토리에 새 url을 쌓지 않고, 현재 url을 대체
+
+**history.pushState**
+
+- `history.pushState(state, unused, url)`
+  - state: `history.state`에서 꺼내 쓸 수 있은 값
+  - unused: 역사적인 이유로 존재, 생략할 수 없음. 빈 문자열 전달.
+  - url: 세션 히스토리에 새로 넣을 url, url이 변경되어도 화면이 리로드되지 않음
+
+**history.replaceState**
+
+- `history.replaceState(state, unused, url)`
+  - state: `history.state`에서 꺼내 쓸 수 있은 값
+  - unused: 역사적인 이유로 존재, 생략할 수 없음. 빈 문자열 전달.
+  - url: 세션 히스토리에 새로 넣을 url, url이 변경되어도 화면이 리로드되지 않음
