@@ -2,6 +2,7 @@ import Items from './Items.js'
 
 export class App {
   constructor(appElement) {
-    new Items(appElement)
+    const qq = new Items(appElement)
+    qq.temp()
   }
 }

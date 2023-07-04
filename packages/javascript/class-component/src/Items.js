@@ -4,6 +4,11 @@ export default class Items extends Component {
   setup() {
     this.state = { items: ['item1', 'item2'] }
   }
+
+  temp() {
+    alert(this.state)
+  }
+
   template() {
     const { items } = this.state
     return `

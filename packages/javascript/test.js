@@ -1,9 +1,22 @@
-function sayHello() {
-  console.log('123')
-}
+console.log(1)
 
-module.exports = sayHello
-console.log(module)
+setTimeout(function temp() {
+  console.log(2)
+}, 1000)
 
-// module.exports.sayHello = sayHello
-// console.log(module)
+Promise.resolve().then(function temp() {
+  console.log(3)
+})
+
+Promise.resolve()
+  .then(function temp() {
+    console.log(4)
+    setTimeout(function temp() {
+      console.log(5)
+    }, 0)
+  })
+  .then(function temp() {
+    console.log(6)
+  })
+
+console.log(7)

@@ -64,3 +64,7 @@ function ignite() {
     store.dispatch('RESET')
   })
 }
+
+setTimeout(() => {
+  console.log(123123)
+}, 1000)
