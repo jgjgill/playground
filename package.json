@@ -9,7 +9,8 @@
     "functional-programming": "yarn workspace functional-programming",
     "javascript": "yarn workspace javascript",
     "vanilla-extract": "yarn workspace vanilla-extract",
-    "react": "yarn workspace react"
+    "react": "yarn workspace react",
+    "vite": "yarn workspace vite"
   },
   "devDependencies": {
     "eslint": "^8.40.0",
