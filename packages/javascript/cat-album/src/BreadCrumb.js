@@ -1,24 +1,32 @@
-export default function BreadCrumb({ $app, initialState }) {
-  this.state = initialState
+export default function Breadcrumb({ targetElement, initialState, onClick }) {
+  const breadcrumbElement = document.createElement('nav')
+  breadcrumbElement.classList.add('Breadcrumb')
 
-  this.$target = document.createElement('nav')
-  this.$target.className = 'BreadCrumb'
-  $app.appendChild(this.$target)
+  targetElement.append(breadcrumbElement)
+
+  this.state = initialState
 
   this.setState = (nextState) => {
     this.state = nextState
+
     this.render()
   }
 
-  this.render = () => {
-    this.$target.innerHTML = `<div class="nav-item">root</div>${this.state
-      .map(
-        (node, index) => `
-        <div class="nav-item" data-index="${index}">${node.name}</div>
-      `,
-      )
-      .join('')}`
-  }
+  breadcrumbElement.addEventListener('click', (e) => {
+    const breadcrumbItem = e.target.closest('.Breadcrumb_item')
+    const { id } = breadcrumbItem.dataset
 
-  this.render()
+    onClick(id)
+  })
+
+  this.render = () => {
+    breadcrumbElement.innerHTML = `
+      <div class="Breadcrumb_item">Root</div>
+      ${this.state
+        .map(
+          ({ name, id }) => `<div class="Breadcrumb_item" data-id="${id}">${name}</div>`,
+        )
+        .join('')}
+    `
+  }
 }

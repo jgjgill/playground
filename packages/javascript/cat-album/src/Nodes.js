@@ -1,71 +1,55 @@
-export default function Nodes({ $app, initialState, onClick, onBackClick }) {
+export default function Nodes({ targetElement, initialState, onClick, onPrevClick }) {
+  const nodesElement = document.createElement('div')
+  targetElement.append(nodesElement)
+  nodesElement.classList.add('Nodes')
+
   this.state = initialState
-  this.$target = document.createElement('nav')
-  $app.appendChild(this.$target)
 
   this.setState = (nextState) => {
     this.state = nextState
     this.render()
   }
 
-  this.onClick = onClick
-  this.onBackClcik = onBackClick
+  nodesElement.addEventListener('click', (e) => {
+    const nodeElement = e.target.closest('.Node')
+    const { id } = nodeElement.dataset
 
-  this.render = () => {
-    if (this.state.nodes) {
-      const nodesTemplate = this.state.nodes
-        .map((node) => {
-          const iconPath =
-            node.type === 'FILE' ? './assets/file.png' : './assets/directory.png'
-
-          return `
-          <div class="Node" data-node-id="${node.id}">
-            <img src="${iconPath}" />
-            <div>${node.name}</div>
-          </div>
-        `
-        })
-        .join('')
-
-      this.$target.innerHTML = !this.state.isRoot
-        ? `
-          <div class="Node"><img src="/assets/prev.png"></div>
-          ${nodesTemplate}
-        `
-        : nodesTemplate
+    if (!id) {
+      // 뒤로가기 처리
     }
 
-    this.$target.addEventListener('click', (e) => {
-      const $node = e.target.closest('.Node')
+    const node = this.state.nodes.find((node) => node.id === id)
 
-      if ($node) {
-        const { nodeId } = $node.dataset
+    if (node) {
+      onClick(node)
+    } else {
+      onPrevClick()
+    }
+  })
 
-        if (!nodeId) {
-          this.onBackClcik()
-          return
-        }
+  this.render = () => {
+    const { isRoot, nodes } = this.state
 
-        const selectedNode = this.state.nodes.find((node) => node.id === nodeId)
+    nodesElement.innerHTML = `
+      ${
+        isRoot
+          ? ''
+          : '<div class="Node"><img src="https://cdn.roto.codes/images/prev.png" /></div>'
       }
-    })
-
-    this.$target.querySelectorAll('.Node').forEach(($node) => {
-      $node.addEventListener('click', (e) => {
-        const { nodeId } = e.target.dataset
-
-        if (!nodeId) {
-          this.onBackClcik()
-        }
-
-        const selectedNode = this.state.nodes.find((node) => node.id === nodeId)
-
-        if (selectedNode) {
-          this.onClick(selectedNode)
-        }
-      })
-    })
+      ${nodes
+        .map(
+          (node) =>
+            `${`
+            <div class="Node" data-id="${node.id}">
+              <img src="${
+                node.type === 'DIRECTORY'
+                  ? 'https://cdn.roto.codes/images/directory.png'
+                  : 'https://cdn.roto.codes/images/file.png'
+              }" />
+              ${node.name}
+            </div>`}`,
+        )
+        .join('')}
+    `
   }
-
-  this.render()
 }

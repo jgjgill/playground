@@ -1,118 +1,114 @@
-import BreadCrumb from './BreadCrumb'
-import Loading from './Loading'
-import Nodes from './Nodes'
+import Breadcrumb from './Breadcrumb.js'
+import ImageViewer from './ImageViewer.js'
+import Loading from './Loading.js'
+import Nodes from './Nodes.js'
+import { request } from './api.js'
 
-const cache = {}
+export default function App({ targetElement }) {
+  this.state = { isRoot: true, isLoading: false, nodes: [], paths: [] }
 
-export default function App($app) {
-  this.state = {
-    isRoot: false,
-    nodes: [],
-    depth: [],
-    selectedFilePath: null,
-    isLoading: false,
-  }
+  const loading = new Loading({ targetElement })
 
-  const imageView = new ImageView({
-    $app,
-    initialState: this.state.selectedFilePath, // selectedNodeImage
+  const breadcrumb = new Breadcrumb({
+    targetElement,
+    initialState: this.state.paths,
+    onClick: async (id) => {
+      if (id) {
+        const nextPaths = [...this.state.paths]
+        const pathIndex = nextPaths.findIndex((path) => path.id === id)
+        this.setState({
+          ...this.state,
+          paths: nextPaths.slice(0, pathIndex + 1),
+        })
+      } else {
+        this.setState({
+          ...this.state,
+          paths: [],
+        })
+      }
+
+      await fetchNodes(id)
+    },
+  })
+
+  const nodes = new Nodes({
+    targetElement,
+    initialState: {
+      isRoot: this.state.isRoot,
+      nodes: this.state.nodes,
+      selectedImageUrl: null,
+    },
+    onClick: async (node) => {
+      if (node.type === 'DIRECTORY') {
+        await fetchNodes(node.id)
+
+        this.setState({ ...this.state, paths: [...this.state.paths, node] })
+      }
+
+      if (node.type === 'FILE') {
+        this.setState({
+          ...this.state,
+          selectedImageUrl: `https://kdt-frontend.cat-api.programmers.co.kr/static${node.filePath}`,
+        })
+      }
+    },
+    onPrevClick: async () => {
+      const nextPaths = [...this.state.paths]
+
+      nextPaths.pop()
+
+      this.setState({
+        ...this.state,
+        paths: nextPaths,
+      })
+
+      if (nextPaths.length === 0) {
+        await fetchNodes()
+      } else {
+        await fetchNodes(nextPaths.at(-1).id)
+      }
+    },
+  })
+
+  const imageViewer = new ImageViewer({
+    targetElement,
+    onClose: () => {
+      this.setState({ ...this.state, selectedImageUrl: null })
+    },
   })
 
   this.setState = (nextState) => {
     this.state = nextState
 
-    breadcrumb.setState(this.state.depth)
     nodes.setState({
       isRoot: this.state.isRoot,
       nodes: this.state.nodes,
     })
-    imageView.setState(this.state.selectedFilePath)
+
+    imageViewer.setState({ selectedImageUrl: this.state.selectedImageUrl })
     loading.setState(this.state.isLoading)
+    breadcrumb.setState(this.state.paths)
   }
 
-  const loading = new Loading({ $app, initialState: this.state.isLoading })
+  const fetchNodes = async (id) => {
+    this.setState({ ...this.state, isLoading: true })
 
-  const breadcrumb = new BreadCrumb({
-    $app,
-    initialState: this.state.depth,
-  })
+    const nodes = await request(id ? `/${id}` : '/')
 
-  const nodes = new Nodes({
-    $app,
-    initialState: {
-      isRoot: this.state.isRoot,
-      nodes: this.state.nodes,
-    },
-    onClick: async (node) => {
-      try {
-        if (node.type === 'DIRECTORY') {
-          if (cache[node.id]) {
-          }
-          const nextNodes = await request(node.id)
-          this.setState({
-            ...this.state,
-            depth: [...this.state.depth, node],
-            nodes: nextNodes,
-          })
-        } else if (node.type === 'FILE') {
-          this.setState({
-            ...this.state,
-            selectedFilePath: node.filePath,
-          })
-        }
-      } catch (err) {
-        throw new Error(`무언가 잘못되었습니다. ${err.message}`)
-      }
-    },
-    onBackClick: async () => {
-      try {
-        const nextState = { ...this.state }
-        nextState.depth.pop()
-        const prevNodeId = nextState.depth.length === 0 ? null : nextState.depth.at(-1).id
-
-        if (prevNodeId === null) {
-          const rootNodes = await request()
-          this.setState({
-            ...nextState,
-            isRoot: true,
-            nodes: rootNodes,
-          })
-        } else {
-          const prevNodes = await request(prevNodeId)
-
-          this.setState({
-            ...nextState,
-            isRoot: false,
-            nodes: prevNodes,
-          })
-        }
-      } catch (err) {
-        throw new Error(`무언가 잘못되었습니다. ${err.message}`)
-      }
-    },
-  })
-
-  const init = async () => {
-    try {
-      this.setState({
-        ...this.state,
-        isLoading: true,
-      })
-      const rootNodes = await request()
-      this.setState({
-        ...this.state,
-        isRoot: true,
-        nodes: rootNodes,
-      })
-    } catch (err) {
-      throw new Error(`무언가 잘못되었습니다! ${err.message}`)
-    } finally {
-      this.setState({
-        ...this.state,
-        isLoading: false,
-      })
-    }
+    this.setState({
+      ...this.state,
+      nodes,
+      isRoot: id ? false : true,
+      isLoading: false,
+    })
   }
 
-  init()
+  this.init = () => {
+    fetchNodes()
+
+    nodes.render()
+    imageViewer.render()
+    loading.render()
+    breadcrumb.render()
+  }
 }

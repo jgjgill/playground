@@ -1,9 +1,10 @@
-export default function Loading({ $app, initialState }) {
-  this.state = initialState
-  this.$target = document.createElement('div')
-  this.$target.className = 'Loading Modal'
+export default function Loading({ targetElement }) {
+  const loadingElement = document.createElement('div')
+  loadingElement.classList.add('loading', 'Modal')
 
-  $app.appendChild(this.$target)
+  targetElement.append(loadingElement)
+
+  this.state = false
 
   this.setState = (nextState) => {
     this.state = nextState
@@ -11,10 +12,12 @@ export default function Loading({ $app, initialState }) {
   }
 
   this.render = () => {
-    this.$target.innerHTML = `<div class="content"><img src="./assets/nyan-cat.gif" /></div>`
+    loadingElement.style.display = this.state ? 'block' : 'none'
 
-    this.$target.style.display = this.state ? 'block' : 'none'
+    loadingElement.innerHTML = `
+      <div class="content">
+        <img src="https://cdn.roto.codes/images/nyan-cat.gif" width="100%" alt="Loading..." />
+      </div>
+    `
   }
-
-  this.render()
 }

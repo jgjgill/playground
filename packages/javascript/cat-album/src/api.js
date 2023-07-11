@@ -1,13 +1,15 @@
-const API_END_POINT = ''
+const API_END_POINT = 'https://kdt-frontend.cat-api.programmers.co.kr'
 
-export const request = async (nodeId) => {
+export const request = async (url) => {
   try {
-    const res = await fetch(`${API_END_POINT}/${nodeId ? nodeId : ''}`)
+    const res = await fetch(`${API_END_POINT}${url}`)
 
     if (!res.ok) {
-      throw new Error('서버의 상태가 이상합니다!')
+      throw new Error('API 요청이 실패했습니다.')
     }
+
+    return await res.json()
   } catch (err) {
-    throw new Error(`무언가 잘못되었습니다! ${err.message}`)
+    alert(err.message)
   }
 }
