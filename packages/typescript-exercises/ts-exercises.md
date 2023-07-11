@@ -155,3 +155,189 @@ function isType(variable: any): variable is SomeType {
 ```
 
 `Type Predicate`을 사용하면 더 정확한 타입 가드 함수를 작성할 수 있다. 이를 통해 타입 검사와 타입 좁히기를 조합하여 **코드의 안전성과 가독성**을 향상시킬 수 있다.
+
+## 문제 5
+
+### Utility Types
+
+> Utility Types에 대해 설명해줘.
+
+유틸리티 타입은 타입스크립트에서 제공하는 내장 타입 변환 도구이다. 흔히 사용되는 타입 패턴을 간편하게 정의하고 조작할 수 있도록 도와준다. 유틸리티 타입을 통해 기존 타입을 기반으로 새로운 타입을 생성하거나 변환하는데 사용한다.
+
+#### `Partial<Type>`
+
+타입의 모든 속성이 옵셔널하게 설정된 타입으로 구성한다. 이 유틸리티 타입은 지정된 타입의 모든 하위 집합을 나타내는 유형을 반환한다.
+
+> `Partial<T>`을 유용하게 사용하는 코드를 알려줘.
+
+주어진 타입 `T`의 모든 속성을 선택적으로 만드는 유틸리티 타입이다. 이를 활용하여 기존 타입의 모든 속성을 선택적으로 다룰 수 있다.
+
+```ts
+interface User {
+  name: string
+  age: number
+  email: string
+}
+
+function updateUser(user: User, updatedData: Partial<User>): User {
+  return { ...user, ...updatedData }
+}
+
+const existingUser: User = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john@example.com',
+}
+
+const updatedUser = updateUser(existingUser, { age: 31, email: 'john.doe@example.com' })
+console.log(updatedUser)
+```
+
+#### `Omit<Type, Keys>`
+
+타입에서 모든 속성을 선택한 다음 `Keys`(문자열 리터럴 또는 문자열 리터럴의 유니언)를 제거하여 타입을 구성한다.
+
+> `Omit<Type, Keys>`을 유용하게 사용하는 코드를 알려줘.
+
+기존 타입에서 원하지 않는 속성을 간단하게 제외하고 싶을 때 유용하다.
+
+```ts
+interface User {
+  id: number
+  name: string
+  age: number
+  email: string
+}
+
+type UserWithoutId = Omit<User, 'id'>
+
+const user: UserWithoutId = {
+  name: 'John Doe',
+  age: 30,
+  email: 'john@example.com',
+}
+
+console.log(user)
+```
+
+### Predefined conditional types
+
+> predefined-conditional-types에 대해 설명해줘.
+
+Predefined conditional types(미리 정의된 조건부 타입)는 타입스크립트에서 제공하는 내장 조건부 타입이다. 타입에 대한 조건을 기반으로 타입을 유추하거나 변환하는데 사용된다. 특히 특정한 조건에 따라 타입을 조작하는데 유용하다.
+
+1. `Exclude<T, U>`: T에서 U에 할당할 수 없는 타입을 추출합니다.
+
+2. `Extract<T, U>`: T에서 U에 할당할 수 있는 타입을 추출합니다.
+
+3. `NonNullable<T>`: T에서 null과 undefined를 제외한 타입을 추출합니다.
+
+4. `ReturnType<T>`: 함수 타입 T의 반환 타입을 추출합니다.
+
+5. `InstanceType<T>`: 클래스 타입 T의 인스턴스 타입을 추출합니다.
+
+6. `Parameters<T>`: 함수 타입 T의 매개변수 타입을 추출합니다.
+
+7. `Required<T>`: T 타입의 모든 속성을 필수 속성으로 만듭니다.
+
+8. `Partial<T>`: T 타입의 모든 속성을 선택적 속성으로 만듭니다.
+
+9. `Readonly<T>`: T 타입의 모든 속성을 읽기 전용으로 만듭니다.
+
+10. `ConditionalTypes`: T 타입에 대해 조건에 따라 타입을 선택합니다.
+
+## 문제 6
+
+### Function Overloads
+
+> 해결하는 과정에서 적용된 Function Overloads에 대해 더 설명해줄 수 있을까?
+
+함수 오버로드는 타입스크립트에서 동일한 함수 이름을 가지면서 다양한 매개변수 형식 또는 반환 형식을 가진 여러 버전의 함수를 정의하는 기능이다.
+
+함수 오버로드를 사용하면 다양한 시나리오에 대응하고 타입 안정성을 강화할 수 있다. 각각의 오버로드 시그니처는 특정한 형태의 매개변수와 반환 형식을 나타낸다. 타입스크립트 컴파일러는 함수 호출 시 전달된 인수와 오버로드된 시그니처를 비교하여 가장 일치하는 오버로드를 선택하고 해당 오버로드에 대한 타입 검사를 수행한다.
+
+> Function Overloads를 유용하게 사용하는 코드를 알려줘.
+
+```ts
+function processInput(value: string): number
+function processInput(value: number): string
+
+function processInput(value: string | number): string | number {
+  if (typeof value === 'string') {
+    // 문자열을 받아서 숫자로 변환
+    return parseInt(value)
+  } else {
+    // 숫자를 받아서 문자열로 변환
+    return String(value)
+  }
+}
+
+const result1 = processInput('123') // 결과: 123 (숫자)
+const result2 = processInput(456) // 결과: "456" (문자열)
+```
+
+## 문제 7
+
+### Tuple Types
+
+튜플 타입은 포함된 요소의 수와 특정 위치에 포함된 유형을 정확하게 파악하는 또 다른 유형의 배열 타입이다.
+
+```ts
+type StringNumberPair = [string, number]
+```
+
+### Generics
+
+> Generics에 대해 설명해줘.
+
+`Generics`은 타입스크립트에서 재사용 가능한 컴포넌트나 함수를 작성할 때 **타입 안전성과 유연성**을 제공하기 위해 사용되는 기능이다. `Generics`를 사용하면 함수 또는 클래스에서 사용되는 타입을 인자로 받아서 재사용할 수 있다.
+
+1. 타입 안전성: 컴파일러가 함수나 클래스 내부에서 사용되는 타입을 추론하고 확인할 수 있다.
+
+2. 재사용성: 동일한 코드를 여러 다른 타입에 대해 재사용할 수 있다. 타입 매개변수를 사용하여 여러 타입에 대응하는 일반적인 코드를 작성할 수 있다.
+
+3. 유연성: 코드의 유연성을 높일 수 있다. 타입 매개변수를 이용하여 함수나 클래스를 호출할 때 원하는 타입을 동적으로 지정할 수 있다.
+
+```ts
+// 함수에서의 Generics
+function identity<T>(arg: T): T {
+  return arg
+}
+
+const result1 = identity<string>('Hello') // 결과: 'Hello' (문자열)
+const result2 = identity<number>(42) // 결과: 42 (숫자)
+
+// 클래스에서의 Generics
+class Box<T> {
+  private value: T
+
+  constructor(value: T) {
+    this.value = value
+  }
+
+  getValue(): T {
+    return this.value
+  }
+}
+
+const box1 = new Box<string>('Apple')
+console.log(box1.getValue()) // 출력: 'Apple' (문자열)
+
+const box2 = new Box<number>(10)
+console.log(box2.getValue()) // 출력: 10 (숫자)
+```
+
+## 문제 8
+
+### Intersection Types
+
+> Intersection Types에 대해 설명해줘.
+
+교차 타입은 타입스크립트에서 두 개 이상의 타입을 결합하여 새로운 타입을 생성하는 기능이다.
+
+```ts
+type A = { name: string; age: number }
+type B = { name: string; occupation: string }
+
+type AB = A & B // { name: string; age: number; occupation: string }
+```
