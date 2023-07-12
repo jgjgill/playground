@@ -341,3 +341,128 @@ type B = { name: string; occupation: string }
 
 type AB = A & B // { name: string; age: number; occupation: string }
 ```
+
+## 문제 9
+
+> 타입스크립트에서 `ApiResponse<T>`와 같이 제네릭을 활용한 유용한 코드에 대해 알려줘.
+
+배열 유틸리티 함수와 제네릭
+
+```ts
+function filterArray<T>(array: T[], predicate: (item: T) => boolean): T[] {
+  return array.filter(predicate)
+}
+
+function mapArray<T, R>(array: T[], transform: (item: T) => R): R[] {
+  return array.map(transform)
+}
+
+// 사용 예시
+const numbers = [1, 2, 3, 4, 5]
+
+const evenNumbers = filterArray(numbers, (num) => num % 2 === 0)
+console.log('Even numbers:', evenNumbers) // [2, 4]
+
+const squaredNumbers = mapArray(numbers, (num) => num * num)
+console.log('Squared numbers:', squaredNumbers) // [1, 4, 9, 16, 25]
+```
+
+> 제네릭과 관련된 유용한 코드로 한 가지만 더 알려줄 수 있을까?
+
+제네릭 제약
+
+제네릭 타입 매개변수에 특정 조건을 부여하여 특정 유형의 동작을 보장하거나 제한하는데 사용한다.
+
+```ts
+interface Lengthwise {
+  length: number
+}
+
+// 타입 매개변수 T를 Lengthwise 인터페이스를 준수하는 유형으로 제한
+function logLength<T extends Lengthwise>(item: T): void {
+  console.log('Length:', item.length)
+}
+
+// 사용 예시
+const array: number[] = [1, 2, 3, 4, 5]
+const str: string = 'Hello, world!'
+const obj: { length: number } = { length: 10 }
+
+logLength(array) // Length: 5
+logLength(str) // Length: 13
+logLength(obj) // Length: 10
+
+// 컴파일 에러
+logLength(123) // Argument of type 'number' is not assignable to parameter of type 'Lengthwise'
+```
+
+> 제네릭 제약을 사용한 다른 유용한 코드도 알려줘.
+
+키 추출하기
+
+```ts
+// T는 `object` 타입을 확장, 객체에만 적용
+function extractKeys<T extends object>(obj: T): Array<keyof T> {
+  return Object.keys(obj) as Array<keyof T>
+}
+
+// 사용 예시
+const person = {
+  name: 'John Doe',
+  age: 30,
+  email: 'johndoe@example.com',
+}
+
+const keys = extractKeys(person)
+console.log('Keys:', keys) // ["name", "age", "email"]
+```
+
+> 타입스크립트에서 extends는 제한이 맞아? 확장이 맞아?
+
+타입스크립트에서 `extends` 키워드는 일반적으로 "확장"을 의미한다. 제네릭 제약에서 `extends` 키워드는 타입 매개변수가 특정 타입을 "제한" 또는 "확장"함을 나타낸다.
+
+`extends` 키워드를 사용하여 타입 매개변수의 상위 타입을 지정함으로써, 해당 제네릭 매개변수가 특정 조건을 만족하거나 특정 유형의 속성을 가져야 한다는 **제약 조건**을 부여할 수 있다. 이를 통해 제네릭 타입의 유연성을 유지하면서 타입 안정성을 강화할 수 있다.
+
+`T extends SomeType`라고 선언하면, `T`는 `SomeType`을 "확장"하거나 "상속"해야 한다는 의미이다. 이는 `T`가 `SomeType`의 하위 타입이거나 `SomeType`에 정의된 속성을 가져야 한다는 것을 의미한다.
+
+다른 관점에서 `extends` 키워드는 일반적으로 "상속"을 나타내지만, 타입스크립트의 제네릭에서 `extends` 키워드는 일종의 "제한" 역할도 수행한다. 특정 유형의 제약을 부여하여 타입의 동작을 제한하는데 사용된다.
+
+타입스크립트에서 extends 키워드는 주로 "제한" 또는 "확장"을 의미하는 것으로 이해된다. 이러한 의미는 제네릭 제약에서 `extends` 키워드를 사용할 때에만 해당되며 다른 컨텍스트에서 `extends` 키워드는 다른 의미를 갖을 수 있다.
+
+## 문제 10
+
+## 문제 11
+
+> ambient-modules에 대해 설명해줘.
+
+ambient modules은 타입스크립트에서 외부 라이브러리나 모듈의 타입을 정의하기 위해 사용되는 개념이다. 일반적으로 외부 자바스크립트 라이브러리는 타입스크립트와 함께 사용될 때 타입 정보가 부족하거나 없을 수 있다. 이때 ambient modules를 사용하여 타입 정보를 정의하고 외부 모듈을 타입 안전하게 사용할 수 있다.
+
+ambient modules는 일반적으로 `.d.ts` 확장자를 가진 타입 선언 파일에 정의된다. 이 파일들은 주로 타입 선언만 포함하며, 구현 코드가 없다. ambient modules의 목적은 타입 정보를 제공하는 것이기 때문이다.
+
+## 문제 12
+
+> type MapFunction<T, U> = (value: T) => U;
+>
+> type MapFunction = <T, U>(value: T) => U;
+>
+> 다음 두 코드의 차이점에 대해 설명해줘.
+
+`type MapFunction<T, U> = (value: T) => U;`
+
+- 재사용 가능한 타입 정의를 작성할 수 있다.
+- 해당 타입 별칭을 사용하는 곳에서 제네릭 타입 매개변수를 구체화하거나 다른 타입 정보와 결합하여 사용할 수 있다.
+
+```ts
+const myMap: MapFunction<number, string> = (value) => String(value)
+```
+
+`type MapFunction = <T, U>(value: T) => U;`
+
+- 다른 타입의 변수에 할당하거나 다른 함수의 매개변수로 사용될 수 있다.
+- 해당 제네릭 함수 타입을 다른 타입의 변수에 할당하거나 함수 타입을 요구하는 매개변수로 사용할 수 있다.
+
+```ts
+function applyMap<T, U>(value: T, mapFunction: MapFunction): U {
+  return mapFunction(value)
+}
+```
