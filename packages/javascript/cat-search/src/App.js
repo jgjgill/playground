@@ -1,12 +1,71 @@
 import Header from './Header.js'
+import SearchResults from './SearchResults.js'
+import SuggestKeywords from './SuggestKeywords.js'
+import { request } from './api.js'
+import debounce from './debounce.js'
+import { getItem, setItem } from './storage.js'
 
 export default function App({ targetElement }) {
+  this.state = { keyword: '', keywords: [], catImages: [] }
+
+  this.cache = getItem('keywords_cache', {})
+
+  this.setState = (nextState) => {
+    this.state = nextState
+
+    suggestKeywords.setState({ keywords: this.state.keywords })
+    header.setState({ keyword: this.state.keyword })
+
+    if (this.state.catImages.length > 0) {
+      searchResult.setState(this.state.catImages)
+    }
+  }
+
   const header = new Header({
     targetElement,
-    onKeywordInput: (keyword) => {
+    initialState: { keyword: this.state.keyword },
+    onKeywordInput: debounce(async (keyword) => {
       if (keyword.trim().length > 1) {
-        console.log(keyword)
+        let keywords = null
+
+        if (this.cache[keyword]) {
+          keywords = this.cache[keyword]
+        } else {
+          keywords = await request(`/keywords?q=${keyword}`)
+          console.log(keywords)
+          this.cache[keyword] = keywords
+          setItem('keywords_cache', this.cache)
+        }
+
+        this.setState({ ...this.state, keyword, keywords })
       }
+    }, 300),
+    onEnter: () => {
+      fetchCatsImage()
     },
   })
+
+  const suggestKeywords = new SuggestKeywords({
+    targetElement,
+    initialState: { keywords: this.state.keywords, cursor: -1 },
+    onKeywordSelect: (keyword) => {
+      this.setState({ ...this.state, keyword, keywords: [] })
+      fetchCatsImage()
+    },
+  })
+
+  const searchResult = new SearchResults({
+    targetElement,
+    initialState: this.state.catImages,
+  })
+
+  const fetchCatsImage = async () => {
+    const { data } = await request(`/search?q=${this.state.keyword}`)
+    console.log(data)
+
+    this.setState({ ...this.state, catImages: data, keywords: [] })
+  }
+
+  suggestKeywords.render()
+  searchResult.render()
 }
