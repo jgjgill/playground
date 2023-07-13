@@ -466,3 +466,117 @@ function applyMap<T, U>(value: T, mapFunction: MapFunction): U {
   return mapFunction(value)
 }
 ```
+
+## 문제 13
+
+### Declaration Merging
+
+선언 병합은 컴파일러가 동일한 이름으로 선언된 두 개의 독립된 선언을 하나의 정의로 병합하는 것을 의미한다. 병합된 정의는 원래 두 선언의 특징을 모두 가지고 있다. 두 개의 선언으로 제한되지 않고 몇 개의 선언이든지 병할할 수 있다.
+
+> 타입스크립트에서 Declaration Merging에 대해 알려줘.
+
+선언 병합은 여러 선언은 하나로 병합하는 기능이다. 이를 통해 동일한 이름을 가진 인터페이스, 네임스페이스, 클래스 등을 병합하여 하나의 선언으로 간주할 수 있다.
+
+**인터페이스 병합 (Interface Merging)**: 같은 이름을 가진 인터페이스들을 병합하여 하나의 인터페이스로 간주한다. 이는 인터페이스의 속성과 메서드를 확장하고, 기존의 인터페이스르 확장할 수 있는 방법을 제공한다.
+
+두 개의 인터페이스를 선언한다.
+
+```ts
+interface Car {
+  brand: string
+}
+
+interface Car {
+  color: string
+}
+```
+
+Declaration Merging으로 두 인터페이스가 병합된다.
+
+```ts
+interface Car {
+  brand: string
+  color: string
+}
+
+const myCar: Car = {
+  brand: 'Toyota',
+  color: 'blue',
+}
+```
+
+**네임스페이스 병합 (Namespace Merging)**: 동일한 이름을 가진 네임스페이스를 병합하여 하나의 네임스페이스로 간주한다. 이를 통해 여러 파일에 나뉘어 작성된 네임스페이스를 단일 네임스페이스로 취급할 수 있다.
+
+```ts
+namespace Utilities {
+  export function trim(value: string): string {
+    return value.trim()
+  }
+}
+
+namespace Utilities {
+  export function capitalize(value: string): string {
+    return value.toUpperCase()
+  }
+}
+```
+
+Declaration Merging으로 두 네임스페이스가 병합된다.
+
+```ts
+namespace Utilities {
+  export function trim(value: string): string {
+    return value.trim()
+  }
+
+  export function capitalize(value: string): string {
+    return value.toUpperCase()
+  }
+}
+```
+
+> namespace에 대해 설명해줘.
+
+네임스페이스는 타입스크립트에서 코드를 구조화하고 모듈화하기 위해 사용되는 기능이다. 네임스페이스는 전역 스코프를 오염시키지 않으면서 관련된 코드를 그룹화할 수 있는 논리적인 컨테이너 역할을 한다.
+
+```ts
+namespace MyNamespace {
+  export interface Person {
+    name: string
+    age: number
+  }
+
+  export function greet(person: Person): void {
+    console.log(`Hello, ${person.name}! You are ${person.age} years old.`)
+  }
+}
+
+const person: MyNamespace.Person = { name: 'Alice', age: 25 }
+MyNamespace.greet(person)
+```
+
+타입스크립트 2.0버전 이상에서는 `namespace` 대신 `module` 키워드를 사용하여 모듈 시스템을 사용할 수도 있다. 모듈은 네임스페이스보다 더 강력하고 유연한 구조를 가지며 네임스페이스보다 권장되는 모듈화 방식이다. 그래도 기존 코드와의 호환성을 위해 네임스페이스를 계속해서 사용할 수 있다.
+
+## 문제 14
+
+## 문제 15
+
+> {[key in K]: V} 이 코드가 잘 이해가 안되고 있어. 특히 in이 어떻게 작동하는지 중심으로 설명해줘.
+
+제네틱 타입에서 `{[key in K]: V}`는 타입스크립트의 맵드 타입(Mapped Type) 구문이다. 이 구문은 `K` 타입에 대해 반복(iterate)하며, 각각의 키를 가지고 새로운 타입을 생성한다.
+
+`in` 키워드는 반복(iteration)을 위해 사용되는 타입스크립트 연산자이다.
+
+```ts
+type MyMappedType<K extends string> = { [key in K]: number }
+
+const myObj: MyMappedType<'a' | 'b' | 'c'> = {
+  a: 1,
+  b: 2,
+  c: 3,
+}
+
+console.log(myObj)
+// Output:
+// { a: 1, b: 2, c: 3 }
+```
