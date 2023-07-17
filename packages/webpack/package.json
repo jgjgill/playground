@@ -1,0 +1,11 @@
+{
+  "name": "webpack",
+  "packageManager": "yarn@3.5.1",
+  "scripts": {
+    "dev": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
+  }
+}

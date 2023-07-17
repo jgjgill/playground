@@ -10,7 +10,8 @@
     "javascript": "yarn workspace javascript",
     "vanilla-extract": "yarn workspace vanilla-extract",
     "react": "yarn workspace react",
-    "vite": "yarn workspace vite"
+    "vite": "yarn workspace vite",
+    "webpack": "yarn workspace webpack"
   },
   "devDependencies": {
     "eslint": "^8.40.0",
