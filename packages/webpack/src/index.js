@@ -1,3 +1,5 @@
-import hellogWorld from './hello-world.js'
+import HelloWorldButton from './components/hello-world-button/hello-world-button.js'
 
-hellogWorld()
+const helloWorldButton = new HelloWorldButton()
+
+helloWorldButton.render()
