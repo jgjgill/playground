@@ -6692,6 +6692,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vue@workspace:packages/vue":
+  version: 0.0.0-use.local
+  resolution: "vue@workspace:packages/vue"
+  languageName: unknown
+  linkType: soft
+
 "watchpack@npm:^2.4.0":
   version: 2.4.0
   resolution: "watchpack@npm:2.4.0"

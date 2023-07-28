@@ -11,6 +11,7 @@
     "vanilla-extract": "yarn workspace vanilla-extract",
     "react": "yarn workspace react",
     "vite": "yarn workspace vite",
+    "vue": "yarn workspace vue",
     "webpack": "yarn workspace webpack"
   },
   "devDependencies": {
