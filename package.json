@@ -12,9 +12,10 @@
     "react": "yarn workspace react",
     "vite": "yarn workspace vite",
     "vue": "yarn workspace vue",
-    "webpack": "yarn workspace webpack"
+    "webpack-practice": "yarn workspace webpack-practice"
   },
   "devDependencies": {
+    "@parcel/transformer-vue": "2.9.3",
     "eslint": "^8.40.0",
     "prettier": "^2.8.8",
     "typescript": "^5.1.3"
