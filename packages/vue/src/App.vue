@@ -1,22 +1,24 @@
 <template>
-  <h1>{{ msg }}</h1>
-  <Hello class="hello" style="font-size: 100px" @click="msg += '!'" />
+  <h1 @click="msg += '!!'">
+    {{ msg }}
+  </h1>
+  <ParentTemp />
 </template>
 
 <script>
-import Hello from '~/components/Hello'
+import ParentTemp from '~/components/ParentTemp'
+import { computed } from 'vue'
 
 export default {
-  components: { Hello },
+  components: { ParentTemp },
+  provide() {
+    return { msg: computed(() => this.msg) }
+  },
   data() {
     return {
-      msg: 'Hello Vue!',
+      isShow: false,
+      msg: 'Hello Vue',
     }
-  },
-  methods: {
-    reverseMsg() {
-      this.msg = this.msg.split('').reverse().join('')
-    },
   },
 }
 </script>

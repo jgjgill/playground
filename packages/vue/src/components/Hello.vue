@@ -1,20 +1,50 @@
 <template>
-  <h1>haha??</h1>
+  <ModalTemp v-model="isShow" closeable>
+    <template #activator>
+      <h1>Hello!</h1>
+    </template>
+    <h3>Hello.vue</h3>
+    <textarea ref="editor" v-model="msg"></textarea>
+    <button @click="submit">Submit!</button>
+  </ModalTemp>
 </template>
 
 <script>
 export default {
-  inheritAttrs: false,
-  mounted() {
-    console.log(this.$attrs)
+  data() {
+    return {
+      msg: 'Please enter the text.',
+      isShow: false,
+    }
+  },
+
+  watch: {
+    isShow(newValue) {
+      if (newValue) {
+        this.$nextTick(() => {
+          this.$refs.editor.focus()
+        })
+      }
+    },
+  },
+
+  methods: {
+    submit() {
+      console.log(this.msg)
+    },
   },
 }
 </script>
 
 <style scoped lang="scss">
-$color: orange;
-
+$color: red;
 h1 {
   color: $color;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
 }
 </style>
