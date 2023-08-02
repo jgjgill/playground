@@ -8,7 +8,9 @@
     "build:webpack": "webpack --mode production"
   },
   "dependencies": {
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vue-router": "4",
+    "vuex": "next"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.3.4",

@@ -9,7 +9,7 @@ module.exports = {
     alias: { '~': path.resolve(__dirname, 'src') },
   },
   entry: './src/main.js',
-  output: { path: path.resolve(__dirname, 'dist'), clean: true },
+  output: { path: path.resolve(__dirname, 'dist'), publicPath: '/', clean: true },
   module: {
     rules: [
       {
@@ -29,4 +29,7 @@ module.exports = {
     }),
     new CopyPlugin({ patterns: [{ from: 'static' }] }),
   ],
+  devServer: {
+    historyApiFallback: true,
+  },
 }

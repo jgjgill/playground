@@ -1,37 +1,24 @@
 <template>
-  <ModalTemp v-model="isShow" closeable>
-    <template #activator>
-      <h1>Hello!</h1>
-    </template>
-    <h3>Hello.vue</h3>
-    <textarea ref="editor" v-model="msg"></textarea>
-    <button @click="submit">Submit!</button>
-  </ModalTemp>
+  <h1>Hello.vue</h1>
+  <div>{{ count }}</div>
+  <button @click="increaseCount">+</button>
+  <button @click="decreaseCount">-</button>
+  <div>{{ message }} / {{ reversedMessage }}</div>
+  <button @click="fetchTodo">Fetch Todo!</button>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+
 export default {
-  data() {
-    return {
-      msg: 'Please enter the text.',
-      isShow: false,
-    }
+  computed: {
+    ...mapState('count', ['count']),
+    ...mapState('message', ['message']),
+    ...mapGetters('message', ['reversedMessage']),
   },
-
-  watch: {
-    isShow(newValue) {
-      if (newValue) {
-        this.$nextTick(() => {
-          this.$refs.editor.focus()
-        })
-      }
-    },
-  },
-
   methods: {
-    submit() {
-      console.log(this.msg)
-    },
+    ...mapMutations('count', ['increaseCount', 'decreaseCount']),
+    ...mapActions('message', ['fetchTodo']),
   },
 }
 </script>

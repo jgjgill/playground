@@ -1,22 +1,22 @@
 <template>
-  <h1 @click="msg += '!!'">
-    {{ msg }}
-  </h1>
-  <ParentTemp />
+  <RouterLink to="/">Home</RouterLink>
+  <RouterLink to="/about">About</RouterLink>
+  <RouterLink
+    :to="{ name: 'docsId', params: { id: '777' }, query: { name: 'Leon', age: 86 } }"
+  >
+    DocumentId
+  </RouterLink>
+
+  <button @click="$router.push({ name: 'home' })">Home</button>
+  <button @click="$router.push({ name: 'about' })">About</button>
+
+  <RouterView />
 </template>
 
 <script>
-import ParentTemp from '~/components/ParentTemp'
-import { computed } from 'vue'
-
 export default {
-  components: { ParentTemp },
-  provide() {
-    return { msg: computed(() => this.msg) }
-  },
   data() {
     return {
-      isShow: false,
       msg: 'Hello Vue',
     }
   },

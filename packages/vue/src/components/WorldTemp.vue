@@ -1,14 +1,14 @@
 <template>
-  <h1>Ehllooo!</h1>
+  <h1>World.vue</h1>
+  <div>{{ reversedMsg }}</div>
 </template>
 
 <script>
 export default {
-  created() {
-    console.log('wworld!!')
-  },
-  unmounted() {
-    console.log('world Unmounted!')
+  computed: {
+    reversedMsg() {
+      return this.$store.getters.reversedMsg
+    },
   },
 }
 </script>
