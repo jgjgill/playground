@@ -6,6 +6,7 @@ import fetchPlugin from '~/plugins/fetch'
 import ModalTemp from '~/components/ModalTemp'
 import store from '~/store'
 import router from '~/routes'
+import '~/routes/guards'
 
 const app = createApp(App)
 

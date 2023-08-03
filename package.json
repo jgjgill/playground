@@ -5,13 +5,15 @@
     "packages/*"
   ],
   "scripts": {
+    "babel-test": "yarn workspace babel-test",
     "design-pattern": "yarn workspace design-pattern",
     "functional-programming": "yarn workspace functional-programming",
     "javascript": "yarn workspace javascript",
     "vanilla-extract": "yarn workspace vanilla-extract",
     "react": "yarn workspace react",
     "vite": "yarn workspace vite",
-    "vue": "yarn workspace vue",
+    "vue-notion": "yarn workspace vue-notion",
+    "vue-practice": "yarn workspace vue-practice",
     "webpack-practice": "yarn workspace webpack-practice"
   },
   "devDependencies": {
