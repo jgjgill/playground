@@ -1,8 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '~/routes/Home'
+import Workspace from '~/routes/Workspace'
+import NotFound from '~/routes/NotFound'
 
 export default createRouter({
   history: createWebHistory(),
   scrollBehavior: () => ({ top: 0 }),
-  routes: [{ path: '/', component: Home }],
+  routes: [
+    {
+      path: '/',
+      component: Workspace,
+      children: [
+        {
+          name: 'Workspace',
+          path: 'workspaces/:id',
+          component: Workspace,
+        },
+      ],
+    },
+    {
+      path: '/:notFound(.*)',
+      component: NotFound,
+    },
+  ],
 })

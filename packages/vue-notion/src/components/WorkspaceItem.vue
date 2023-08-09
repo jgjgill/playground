@@ -1,18 +1,23 @@
 <template>
   <li>
-    <div :style="{ paddingLeft: `${14 * depth}px` }" class="title">
+    <div
+      :style="{ paddingLeft: `${14 * depth}px` }"
+      :class="{ active: Number($route.params.id) === workspace.id }"
+      class="title"
+      @click="$router.push({ name: 'Workspace', params: { id: workspace.id } })"
+    >
       <span
         :class="{ active: showChildren }"
         class="material-icons"
-        @click="showChildren = !showChildren"
-        >play_arrow</span
-      >
+        @click.stop="showChildren = !showChildren"
+        >play_arrow
+      </span>
       <div class="text">
         {{ workspace.title || '제목 없음' }}
       </div>
       <div class="actions">
-        <span class="material-icons">add</span>
-        <span class="material-icons">delete</span>
+        <span class="material-icons" @click.stop="createWorkspace">add</span>
+        <span class="material-icons" @click.stop="deleteWorkspace">delete</span>
       </div>
     </div>
 
@@ -47,12 +52,36 @@ export default {
       default: 1,
     },
   },
+
   data() {
     return { showChildren: false }
   },
+
   computed: {
     hasChildren() {
       return this.workspace.documents && this.workspace.documents.length
+    },
+  },
+
+  created() {
+    this.showChildren = this.$store.state.workspace.currentWorkspacePath.some(
+      (workspace) => workspace.id === this.workspace.id,
+    )
+  },
+
+  methods: {
+    async createWorkspace() {
+      await this.$store.dispatch('workspace/createWorkspace', {
+        parentId: this.workspace.id,
+      })
+
+      this.showChildren = true
+    },
+
+    deleteWorkspace() {
+      this.$store.dispatch('workspace/deleteWorkspace', {
+        id: this.workspace.id,
+      })
     },
   },
 }
@@ -73,6 +102,13 @@ li {
 
       .actions {
         display: flex;
+      }
+    }
+
+    &.active {
+      .text {
+        font-weight: 700;
+        color: rgba($color-font, 0.8);
       }
     }
 
