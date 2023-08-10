@@ -14,6 +14,7 @@
     "vite": "yarn workspace vite",
     "vue-notion": "yarn workspace vue-notion",
     "vue-practice": "yarn workspace vue-practice",
+    "vue-vite": "yarn workspace vue-vite",
     "webpack-practice": "yarn workspace webpack-practice"
   },
   "devDependencies": {
