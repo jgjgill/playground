@@ -15,6 +15,7 @@
     "vue-notion": "yarn workspace vue-notion",
     "vue-practice": "yarn workspace vue-practice",
     "vue-vite": "yarn workspace vue-vite",
+    "vue-weather": "yarn workspace vue-weather",
     "webpack-practice": "yarn workspace webpack-practice"
   },
   "devDependencies": {
