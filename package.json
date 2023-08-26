@@ -12,6 +12,7 @@
     "vanilla-extract": "yarn workspace vanilla-extract",
     "react": "yarn workspace react",
     "vite": "yarn workspace vite",
+    "vite-react": "yarn workspace vite-react",
     "vue-notion": "yarn workspace vue-notion",
     "vue-practice": "yarn workspace vue-practice",
     "vue-vite": "yarn workspace vue-vite",
