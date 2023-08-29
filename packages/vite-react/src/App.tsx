@@ -1,42 +1,54 @@
 import { useState } from 'react'
-import { First, Second, Third } from './components'
+import useFunnel from './components/funnel/useFunnel'
+import { useSessionStorage } from './hooks/useStorage'
 
 const FUNNEL_LIST = ['first', 'second', 'third'] as const
 
 function App() {
   const [registerData, setRegisterData] = useState({})
-  const [step, setStep] = useState<(typeof FUNNEL_LIST)[number]>(FUNNEL_LIST[0])
+  const [Funnel, setStep] = useFunnel(FUNNEL_LIST)
+  const [prev, setPrev] = useState<(typeof FUNNEL_LIST)[number][]>([])
 
-  const handleFirstNext = (data: object) => {
-    setStep('second')
-    setRegisterData((prev) => ({ ...prev, ...data }))
-  }
+  window.addEventListener('touchstart', (e) => {
+    console.log(e.touches[0])
+  })
 
-  const handleSecondNext = (data: object) => {
-    setStep('third')
-    setRegisterData((prev) => ({ ...prev, ...data }))
-  }
-
-  const handleThirdSubmit = () => {
-    console.log('데이터를 제출합니다!', registerData)
-  }
+  window.addEventListener('touchend', (e) => {
+    console.log(e.changedTouches[0])
+  })
 
   return (
     <div>
-      <h1>페이지에 따른 정보</h1>
+      <Funnel>
+        <Funnel.Step name="first">
+          <div>첫 번째</div>
+          <button
+            onClick={() => {
+              setStep('second')
+              setPrev((prev) => [...prev, 'first'])
+            }}
+          >
+            다음 페이지
+          </button>
+        </Funnel.Step>
 
-      {step === 'first' && <First onNext={(data) => handleFirstNext(data)} />}
-      {step === 'second' && <Second onNext={(data) => handleSecondNext(data)} />}
-      {step === 'third' && <Third onSubmit={handleThirdSubmit} />}
+        <Funnel.Step name="second">
+          <div>두 번째</div>
+          <button
+            onClick={() => {
+              setStep('third')
+              setPrev((prev) => [...prev, 'second'])
+            }}
+          >
+            다음 페이지
+          </button>
+        </Funnel.Step>
 
-      <div style={{ border: '2px solid', textAlign: 'center' }}>
-        가상 데이터 공간!
-        <div>
-          {Object.entries(registerData).map(([key, value], index) => {
-            return <div key={index}>{`${key} ${value}`}</div>
-          })}
-        </div>
-      </div>
+        <Funnel.Step name="third">
+          <div>세 번째</div>
+          <button>마지막 페이지!</button>
+        </Funnel.Step>
+      </Funnel>
     </div>
   )
 }
