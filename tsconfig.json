@@ -16,12 +16,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "references": [
-    {
-      "path": "packages/react-test"
-    },
-    {
-      "path": "packages/vue-test"
-    }
-  ]
+  "references": []
 }

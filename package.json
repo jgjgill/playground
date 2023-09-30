@@ -6,11 +6,10 @@
   ],
   "scripts": {
     "babel-test": "yarn workspace babel-test",
+    "back-test": "yarn workspace back-test",
     "design-pattern": "yarn workspace design-pattern",
     "functional-programming": "yarn workspace functional-programming",
     "javascript": "yarn workspace javascript",
-    "vanilla-extract": "yarn workspace vanilla-extract",
-    "react": "yarn workspace react",
     "vite": "yarn workspace vite",
     "vite-react": "yarn workspace vite-react",
     "vue-notion": "yarn workspace vue-notion",
