@@ -3241,6 +3241,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toss/use-overlay@npm:^1.3.8":
+  version: 1.3.8
+  resolution: "@toss/use-overlay@npm:1.3.8"
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18
+  checksum: 2195596706fcf7b93c5bf558418c53def501ea4c5729d38d9c0b3503639d4f1ced7a0cccfd0307a6360d8adffa8f8ef8d7ff62c180257dee9cb4a4b911584c34
+  languageName: node
+  linkType: hard
+
 "@trysound/sax@npm:0.2.0":
   version: 0.2.0
   resolution: "@trysound/sax@npm:0.2.0"
@@ -11930,6 +11939,7 @@ __metadata:
   resolution: "vite-react@workspace:packages/vite-react"
   dependencies:
     "@tanstack/react-query": ^5.8.7
+    "@toss/use-overlay": ^1.3.8
     "@types/d3": ^7.4.1
     "@types/react": ^18.2.15
     "@types/react-dom": ^18.2.7
