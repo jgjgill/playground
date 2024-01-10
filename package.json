@@ -10,6 +10,7 @@
     "design-pattern": "yarn workspace design-pattern",
     "functional-programming": "yarn workspace functional-programming",
     "javascript": "yarn workspace javascript",
+    "node-test": "yarn workspace node-test",
     "vite": "yarn workspace vite",
     "vite-react": "yarn workspace vite-react",
     "vue-notion": "yarn workspace vue-notion",
