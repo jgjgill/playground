@@ -1,8 +1,23 @@
-const http = require('http')
-const routes = require('./routes')
+const express = require('express')
 
-console.log(routes.someText)
+const app = express()
 
-const server = http.createServer(routes.handler)
+// app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
 
-server.listen(3000)
+app.use('/add-product', (req, res, next) => {
+  res.send(
+    '<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>',
+  )
+})
+
+app.use('/product', (req, res, next) => {
+  console.log(req.body)
+  res.redirect('/')
+})
+
+app.use('/', (req, res, next) => {
+  res.send('<h1>hello</h1>')
+})
+
+app.listen(3000)
