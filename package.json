@@ -11,6 +11,7 @@
     "functional-programming": "yarn workspace functional-programming",
     "javascript": "yarn workspace javascript",
     "node-test": "yarn workspace node-test",
+    "socket-practice": "yarn workspace socket-practice",
     "vite": "yarn workspace vite",
     "vite-react": "yarn workspace vite-react",
     "vue-notion": "yarn workspace vue-notion",
